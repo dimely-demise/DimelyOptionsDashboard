@@ -5,6 +5,7 @@ class DataFrameModel(QAbstractTableModel):
     def __init__(self, df: pd.DataFrame = pd.DataFrame(), columns: list = None):
         super().__init__()
         self._data = df
+        self._raw = df
         self._columns = columns if columns else df.columns.tolist()
 
     def data(self, index, role=Qt.DisplayRole):
@@ -29,9 +30,10 @@ class DataFrameModel(QAbstractTableModel):
 
     def setDataFrame(self, df: pd.DataFrame):
         self.beginResetModel()
+        self._raw = df
         self._data = df[self._columns]  # Use only the specified columns
         self.endResetModel()
 
     def set_columns(self, columns: list):
         self._columns = columns
-        self.setDataFrame(self._data)  # Refresh the data with the new column setup
+        self.setDataFrame(self._raw)  # Refresh the data with the new column setup

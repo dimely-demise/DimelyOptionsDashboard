@@ -36,7 +36,8 @@ class Handler(FileSystemEventHandler):
         self.compile_ui_files = compile_ui_files
 
     def on_modified(self, event):
-        if event.src_path.endswith(".ui"):
+        print("Mpdified", event.src_path)
+        if not event.src_path.endswith(".py"):
             self.compile_ui_files()
 
 if __name__ == '__main__':

@@ -56,7 +56,7 @@
            <cursorShape>ArrowCursor</cursorShape>
           </property>
           <property name="text">
-           <string>Options Cockpit</string>
+           <string>Dimely Options Cockpit</string>
           </property>
          </widget>
         </widget>
@@ -76,8 +76,43 @@
      <height>21</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuLive_Scan">
+    <property name="title">
+     <string>Option Live Scan</string>
+    </property>
+    <addaction name="optionScanAnzeigen"/>
+   </widget>
+   <widget class="QMenu" name="menuUnderlying_Scan">
+    <property name="font">
+     <font>
+      <pointsize>1</pointsize>
+     </font>
+    </property>
+    <property name="contextMenuPolicy">
+     <enum>Qt::PreventContextMenu</enum>
+    </property>
+    <property name="toolTipDuration">
+     <number>-1</number>
+    </property>
+    <property name="title">
+     <string>Underlying Scan</string>
+    </property>
+    <addaction name="underlyingScanAnzeigen"/>
+   </widget>
+   <addaction name="menuLive_Scan"/>
+   <addaction name="menuUnderlying_Scan"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="optionScanAnzeigen">
+   <property name="text">
+    <string>Anzeigen</string>
+   </property>
+  </action>
+  <action name="underlyingScanAnzeigen">
+   <property name="text">
+    <string>Anzeigen</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

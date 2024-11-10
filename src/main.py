@@ -3,6 +3,7 @@ import sys
 import traceback
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QWidget
 import PyQt5.QtWidgets as QtWidgets
+from controller.ScannerController import ScannerController
 from infrastructure.Database import Database
 from views.OptionsTableView import OptionsTableView
 from controller.OptionsController import OptionsController
@@ -14,8 +15,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
 
-
-
+        
+        self.optionScanAnzeigen.triggered.connect(self.onLiveScanTriggered)
+        self.underlyingScanAnzeigen.triggered.connect(self.onScannerTriggered)
 
         #self.setWindowTitle('Options Market Data Viewer')
         self.loop = loop  # Store the event loop for later use
@@ -26,10 +28,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.database = Database('127.0.0.1', 'root', 'dev', 'tws')  # Replace with actual credentials
 
             self.optionsDataController = OptionsController(self.database)
+            self.scannerContriller = ScannerController(self.database)
             #self.controller.load_data()  # Load data and start the process
 
             #self.addTableViewToStack()
-            self.content.setCurrentIndex(0)
 
 
         except Exception as e:
@@ -37,7 +39,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             traceback.print_exc()
             QMessageBox.critical(self, "Database Connection Error", str(e))
             sys.exit(1)  # Exit the application if the database connection fails
+             
+    def onLiveScanTriggered(self):
+        print("onLiveScanTriggered")
+        self.content.setCurrentWidget(self.optionsDataController.view)
 
+    def onScannerTriggered(self):
+        print("onScannerTriggered")
+
+        self.content.setCurrentWidget(self.scannerContriller.view)
     def clearContent(self):
         # Clear default pages 
         while self.content.count() > 0: 
@@ -48,6 +58,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.clearContent()
 
         self.content.addWidget(self.optionsDataController.view)
+        self.content.addWidget(self.scannerContriller.view)
+
+        self.onScannerTriggered()
 
 
 

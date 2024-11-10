@@ -15,25 +15,34 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1258, 814)
+        self.centralwidget: QtWidgets.QWidget
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
+        self.horizontalLayout_2: QtWidgets.QHBoxLayout
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.centralwidget)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
+        self.verticalLayout: QtWidgets.QVBoxLayout
         self.verticalLayout = QtWidgets.QVBoxLayout()
         self.verticalLayout.setObjectName("verticalLayout")
+        self.menuLayout: QtWidgets.QHBoxLayout
         self.menuLayout = QtWidgets.QHBoxLayout()
         self.menuLayout.setObjectName("menuLayout")
+        self.pushButton_2: QtWidgets.QPushButton
         self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_2.setObjectName("pushButton_2")
         self.menuLayout.addWidget(self.pushButton_2)
+        self.pushButton: QtWidgets.QPushButton
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton.setObjectName("pushButton")
         self.menuLayout.addWidget(self.pushButton)
         self.verticalLayout.addLayout(self.menuLayout)
+        self.content: QtWidgets.QStackedWidget
         self.content = QtWidgets.QStackedWidget(self.centralwidget)
         self.content.setObjectName("content")
+        self.page: QtWidgets.QWidget
         self.page = QtWidgets.QWidget()
         self.page.setObjectName("page")
+        self.label: QtWidgets.QLabel
         self.label = QtWidgets.QLabel(self.page)
         self.label.setGeometry(QtCore.QRect(290, 290, 721, 151))
         font = QtGui.QFont()
@@ -42,19 +51,43 @@ class Ui_MainWindow(object):
         self.label.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
         self.label.setObjectName("label")
         self.content.addWidget(self.page)
+        self.page_2: QtWidgets.QWidget
         self.page_2 = QtWidgets.QWidget()
         self.page_2.setObjectName("page_2")
         self.content.addWidget(self.page_2)
         self.verticalLayout.addWidget(self.content)
         self.horizontalLayout_2.addLayout(self.verticalLayout)
         MainWindow.setCentralWidget(self.centralwidget)
+        self.menubar: QtWidgets.QMenuBar
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1258, 21))
         self.menubar.setObjectName("menubar")
+        self.menuLive_Scan: QtWidgets.QMenu
+        self.menuLive_Scan = QtWidgets.QMenu(self.menubar)
+        self.menuLive_Scan.setObjectName("menuLive_Scan")
+        self.menuUnderlying_Scan: QtWidgets.QMenu
+        self.menuUnderlying_Scan = QtWidgets.QMenu(self.menubar)
+        font = QtGui.QFont()
+        font.setPointSize(1)
+        self.menuUnderlying_Scan.setFont(font)
+        self.menuUnderlying_Scan.setContextMenuPolicy(QtCore.Qt.PreventContextMenu)
+        self.menuUnderlying_Scan.setToolTipDuration(-1)
+        self.menuUnderlying_Scan.setObjectName("menuUnderlying_Scan")
         MainWindow.setMenuBar(self.menubar)
+        self.statusbar: QtWidgets.QStatusBar
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
+        self.optionScanAnzeigen: QtWidgets.QAction
+        self.optionScanAnzeigen = QtWidgets.QAction(MainWindow)
+        self.optionScanAnzeigen.setObjectName("optionScanAnzeigen")
+        self.underlyingScanAnzeigen: QtWidgets.QAction
+        self.underlyingScanAnzeigen = QtWidgets.QAction(MainWindow)
+        self.underlyingScanAnzeigen.setObjectName("underlyingScanAnzeigen")
+        self.menuLive_Scan.addAction(self.optionScanAnzeigen)
+        self.menuUnderlying_Scan.addAction(self.underlyingScanAnzeigen)
+        self.menubar.addAction(self.menuLive_Scan.menuAction())
+        self.menubar.addAction(self.menuUnderlying_Scan.menuAction())
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -64,4 +97,8 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.pushButton_2.setText(_translate("MainWindow", "PushButton"))
         self.pushButton.setText(_translate("MainWindow", "PushButton"))
-        self.label.setText(_translate("MainWindow", "Options Cockpit"))
+        self.label.setText(_translate("MainWindow", "Dimely Options Cockpit"))
+        self.menuLive_Scan.setTitle(_translate("MainWindow", "Option Live Scan"))
+        self.menuUnderlying_Scan.setTitle(_translate("MainWindow", "Underlying Scan"))
+        self.optionScanAnzeigen.setText(_translate("MainWindow", "Anzeigen"))
+        self.underlyingScanAnzeigen.setText(_translate("MainWindow", "Anzeigen"))

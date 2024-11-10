@@ -3,12 +3,14 @@ from ib_insync import IB, Contract, ScannerSubscription
 from queue import Queue
 import threading
 from enum import Enum
+from blinker import signal
 
 class RequestType(Enum):
     MARKET_DATA = 'market_data'
     SCANNER = 'scanner'
 
 class TwsRequestQueue:
+    scan_received = signal("scan_received")
     _instance = None
     _lock = threading.Lock()
 
@@ -18,7 +20,7 @@ class TwsRequestQueue:
                 cls._instance = super(TwsRequestQueue, cls).__new__(cls)
         return cls._instance
 
-    def __init__(self, host='127.0.0.1', port=7497, clientId=1, max_requests: int = 90):
+    def __init__(self, host='127.0.0.1', port=7496, clientId=1, max_requests: int = 90):
         if not hasattr(self, 'initialized'):  # Ensure __init__ runs only once
             self.ib = IB()
             self.host = host
@@ -34,9 +36,10 @@ class TwsRequestQueue:
             
             asyncio.ensure_future(self.process_requests())
             self.initialized = True
+            self.connect_to_tws()
 
     def connect_to_tws(self):
-        if not self.connected:
+        if not self.connected and not self.ib.isConnected():
             self.ib.connect(self.host, self.port, self.clientId)
             self.connected = True
 
@@ -59,6 +62,15 @@ class TwsRequestQueue:
                     self.connect_to_tws()
                 self.active_requests[req_id] = (RequestType.SCANNER, scanner)
                 self.queue.put(req_id)
+
+    def handle_scanner_request(self, sub_params, req_id):
+        print("queue handle scan")
+        def handleUpdate(*args):
+            self.scan_received.send(*args)
+
+        sub = self.ib.reqScannerSubscription(sub_params)
+        sub.updateEvent += handleUpdate
+
 
     def cancel_request(self, req_id: int):
         with self.lock:
@@ -83,6 +95,6 @@ class TwsRequestQueue:
             if request_type == RequestType.MARKET_DATA:
                 self.loop.call_soon_threadsafe(self.ib.reqMktData, request_data, '', False, False)
             elif request_type == RequestType.SCANNER:
-                self.loop.call_soon_threadsafe(self.ib.reqScannerSubscription, req_id, request_data)
+                self.loop.call_soon_threadsafe(self.handle_scanner_request, request_data, req_id)
             
             self.queue.task_done()

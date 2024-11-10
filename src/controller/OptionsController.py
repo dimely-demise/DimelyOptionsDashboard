@@ -21,7 +21,7 @@ class OptionsController(BaseController[OptionsTableView]):
         self.database = database
         #self.table_view = OptionsTableView()
         self.requestQueue = TwsRequestQueue()
-        self.ib = IB()
+        self.ib = self.requestQueue.ib
         self.lock = threading.RLock()
 
 
@@ -43,10 +43,12 @@ class OptionsController(BaseController[OptionsTableView]):
         self.updateTimer.setInterval(60000)  # 10 seconds
         self.updateTimer.timeout.connect(lambda: asyncio.ensure_future(self.storeUpdates()))
 
+        self.view.connectButton.clicked.connect(self.connectTws)
+
 
     def connectTws(self):
         # Connect to IB
-        self.ib.connect('127.0.0.1', 7496, clientId=1)
+        # self.ib.connect('127.0.0.1', 7496, clientId=1)
         #self.ib.reqMarketDataType(4)
 
 

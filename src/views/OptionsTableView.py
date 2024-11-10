@@ -13,11 +13,13 @@ class OptionsTableView(QWidget):
         sidebar_layout = QHBoxLayout()
         self.sidebar.setLayout(sidebar_layout)
 
-        connectButton = QPushButton(text="Verbinden")
+        self.connectButton: QPushButton = QPushButton(text="Verbinden")
         
-        sidebar_layout.addWidget(connectButton)
+        sidebar_layout.addWidget(self.connectButton)
         
-
+        # Specify which columns to display
+        self.columns_to_display = columns if columns else ['id', 'symbol', 'annual_return_rate', 'bid', 'ask', 'strike', 'undPrice', 'delta', 'IV', 'expiry', 'DTE', 'DTE2', 'latestUpdate']
+        
 
         self.layout = QGridLayout()
         self.layout.addWidget(self.tableView, 0, 0)
@@ -27,9 +29,7 @@ class OptionsTableView(QWidget):
         self.layout.setColumnStretch(0, 8) 
         self.layout.setColumnStretch(1, 4)
 
-        # Specify which columns to display
-        self.columns_to_display = columns if columns else ['id', 'symbol', 'annual_return_rate', 'bid', 'ask', 'strike', 'undPrice', 'delta', 'IV', 'expiry', 'DTE', 'DTE2', 'latestUpdate']
-        
+         
         # Create an instance of the model
         self.model = DataFrameModel(columns=self.columns_to_display)
         self.tableView.setModel(self.model)

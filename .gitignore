@@ -1,3 +1,5 @@
 venv/*
+./venv*
+venv
 Generated
 */**/__pycache__
